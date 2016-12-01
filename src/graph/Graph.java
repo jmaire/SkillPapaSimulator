@@ -20,10 +20,12 @@ public class Graph {
 	}
 	
 	public void addLink(Node n1, Node n2) {
+		if (n1 == n2) {
+			return ;
+		}
 		if (nodes.contains(n1) 
 			&& nodes.contains(n2)
-			&& !existingLink(n1, n2)
-			&& n1!=n2) {
+			&& !existingLink(n1, n2)) {
 			links.add(new Link(n1,n2));
 		}
 	}
