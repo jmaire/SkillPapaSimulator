@@ -2,24 +2,33 @@ package graph;
 
 import java.util.TreeSet;
 
+
+
 public class Pays extends Node{
+
+	public static final int BONHEUR_MIN = 0;
+	public static final int BONHEUR_MAX = 100;
+	public static final int BONHEUR_INIT = (BONHEUR_MAX - BONHEUR_MIN)/2;
 	
-	private int surface;
-	private int bohneur; 
+	
+	private int bonheur;
+	private int population;
+	private int populationMax;
 	private TreeSet<Parametre> params;
 		
-	public Pays(int x, int y, int s) {
+	public Pays(int x, int y, int popMax) {
 		super(x,y);
-		surface = s;
-		bohneur = 100;
+		bonheur = BONHEUR_INIT;
+		population = 0;
+		populationMax = popMax;
 	}
 	
-	public int getSurface() {
-		return surface;
+	public int getBonheur() {
+		return bonheur;
 	}
 	
-	public int getBohneur() {
-		return bohneur;
+	public int getPopulationMax() {
+		return populationMax;
 	}
 
 	public void addParam(Parametre p) {
@@ -31,13 +40,17 @@ public class Pays extends Node{
 	}
 	
 	public void update() {
-		for (Parametre p : params) {
-			bohneur += p.getBonus();
+		double coef = Math.atan(populationMax - population)*2/Math.PI;
+		if (coef > 0) {
+			bonheur += (BONHEUR_MAX - bonheur) * coef;
+		} else {
+			bonheur += bonheur * coef;
 		}
 	}
 	
-	public String toString() {
-		String txt = "Pays de surface : "+ surface + "\n";
+	
+	
+    /*public String toString() {
 		if (!params.isEmpty()) {
 			txt += " Informations supplémentaire  : \n";
 			for (Parametre p : params) {
@@ -45,6 +58,7 @@ public class Pays extends Node{
 			}
 		}
 		return txt;
-	}
+	}*/
+
 	
 }

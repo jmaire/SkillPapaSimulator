@@ -2,8 +2,12 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class Graph {
+	
+	public static final double TAUX_EMIGRATION = 0.3; 
+	
 	ArrayList<Node> nodes;
 	ArrayList<Link> links;
 	
@@ -53,7 +57,41 @@ public class Graph {
 	}
 	
 	
+	public void update() {
+		for (Node pays : nodes) {
+			int nbEmigrant = (int)((Pays.BONHEUR_MAX - ((Pays)pays).getBonheur()) * TAUX_EMIGRATION);
+			roulette((Pays)pays, nbEmigrant);
+		}
+	}
 	
+	public void roulette(Pays p, int nbEmigr) {
+		/*Total des differences absolues de bonheur*/
+		int totalBonheur = 0;
+		for (int i = 0; i<nbEmigr; i++) {
+			totalBonheur += Math.abs(((Pays)getLinkedNodes(p).get(i)).getBonheur() - p.getBonheur());
+		}
+		
+		Random r = new Random();
+		int rand = r.nextInt(totalBonheur);
+		int compteur = 0;
+		int i = 0;
+		for (int j = 0; j<nbEmigr; j++) {
+			while (compteur < rand) {
+				compteur += Math.abs(((Pays)getLinkedNodes(p).get(i)).getBonheur() - p.getBonheur());
+				i++;
+			}
+			
+			Pays paysSelect = ((Pays)getLinkedNodes(p).get(i));
+			
+			if (paysSelect.getBonheur() > p.getBonheur()) {
+				
+			}
+		}
+		
+		
+		
+		
+	}
 	
 	
 	
