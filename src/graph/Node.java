@@ -4,6 +4,7 @@ public class Node {
 	private float x;
 	private float y;
 	
+
 	public Node(float cx, float cy){
 		x= cx;
 		y= cy;

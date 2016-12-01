@@ -13,7 +13,6 @@ public enum Parametre {
 	public int getBonus() {
 		return bonus;
 	}
-	
 	Parametre(String n, int b) {
 		name = n;
 		bonus = b;

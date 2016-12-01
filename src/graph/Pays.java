@@ -7,8 +7,7 @@ public class Pays extends Node{
 	private int surface;
 	private int bohneur; 
 	private TreeSet<Parametre> params;
-	
-	
+		
 	public Pays(int x, int y, int s) {
 		super(x,y);
 		surface = s;

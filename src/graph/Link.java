@@ -18,6 +18,5 @@ public class Link {
 		}
 		return null;
 	}
-	
-	
+
 }
