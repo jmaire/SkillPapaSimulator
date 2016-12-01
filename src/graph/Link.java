@@ -8,7 +8,16 @@ public class Link {
 		this.node1 = n1;
 		this.node2 = n2;
 	}
+
+	public Node getNode1() {
+		return node1;
+	}
 	
+	public Node getNode2() {
+		return node2;
+	}
+
+
 	public Node getNeighbour(Node n) {
 		if (node1 == n) {
 			return node2;
@@ -18,5 +27,7 @@ public class Link {
 		}
 		return null;
 	}
+	
+	
 
 }

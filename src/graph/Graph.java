@@ -32,4 +32,29 @@ public class Graph {
 		}
 		return res;
 	}
+
+	public int getLinkNumber() {
+		return links.size();
+	}
+
+	public int getNodeNumber() {
+		return nodes.size();
+	}
+
+	public boolean existingLink(Node n1, Node n2) {
+		for (Link l : links) {
+			if (l.getNode1() == n1 || l.getNode2() == n1){
+				if (getLinkedNodes(n1).contains(n2)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	
 }
