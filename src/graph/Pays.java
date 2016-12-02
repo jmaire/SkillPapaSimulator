@@ -23,6 +23,14 @@ public class Pays extends Node{
 		populationMax = popMax;
 	}
 	
+	public void setPopulation(int newPoppulation) {
+		population = newPoppulation;
+	}
+	
+	public void setBonheur(int newBonheur) {
+		bonheur = newBonheur;
+	}
+	
 	public int getBonheur() {
 		return bonheur;
 	}
@@ -49,7 +57,7 @@ public class Pays extends Node{
 	}
 	
 	public void update() {
-		double coef = Math.atan(populationMax - population)*2/Math.PI;
+		double coef = Math.atan((populationMax - population)/3)*2/Math.PI;
 		if (coef > 0) {
 			bonheur += (BONHEUR_MAX - bonheur) * coef;
 		} else {
