@@ -19,6 +19,15 @@ public class Graph {
 		links = new ArrayList<Link>();
 	}
 	
+	public ArrayList<Node> getNodes(){
+		return nodes;
+	}
+	
+	public ArrayList<Link> getLink(){
+		return links;
+	}
+	
+	
 	public void addNode(Node... n) {
 		nodes.addAll(Arrays.asList(n));
 	}
