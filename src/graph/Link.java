@@ -1,10 +1,10 @@
 package graph;
 
 public class Link {
-	private Node node1;
-	private Node node2;
+	protected Pays node1;
+	protected Pays node2;
 	
-	public Link(Node n1, Node n2) {
+	public Link(Pays n1, Pays n2) {
 		this.node1 = n1;
 		this.node2 = n2;
 	}
@@ -18,15 +18,7 @@ public class Link {
 	}
 
 
-	public Node getNeighbour(Node n) {
-		if (node1 == n) {
-			return node2;
-		}
-		if (node2 == n) {
-			return node1;
-		}
-		return null;
-	}
+	
 	
 	
 

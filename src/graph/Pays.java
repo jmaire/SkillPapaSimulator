@@ -1,5 +1,6 @@
 package graph;
 
+import java.util.Random;
 import java.util.TreeSet;
 
 
@@ -11,14 +12,14 @@ public class Pays extends Node{
 	public static final int BONHEUR_INIT = (BONHEUR_MAX - BONHEUR_MIN)/2;
 	
 	
-	private int bonheur;
-	private int population;
-	private int populationMax;
-	private TreeSet<Parametre> params;
+	protected int bonheur;
+	protected int population;
+	protected int populationMax;
+	protected TreeSet<Parametre> params;
 		
 	public Pays(int x, int y, int popMax) {
 		super(x,y);
-		bonheur = BONHEUR_INIT;
+		bonheur = (new Random()).nextInt(100);
 		population = 0;
 		populationMax = popMax;
 	}
