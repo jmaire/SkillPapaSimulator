@@ -27,6 +27,15 @@ public class Pays extends Node{
 		return bonheur;
 	}
 	
+	public int getPopulation() {
+		return population;
+	}
+
+	public void setPopulation(int population) {
+		this.population = population;
+	}
+
+	
 	public int getPopulationMax() {
 		return populationMax;
 	}
@@ -47,6 +56,8 @@ public class Pays extends Node{
 			bonheur += bonheur * coef;
 		}
 	}
+	
+	
 	
 	
 	

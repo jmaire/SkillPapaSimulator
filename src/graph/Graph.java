@@ -2,6 +2,9 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 public class Graph {
@@ -58,39 +61,54 @@ public class Graph {
 	
 	
 	public void update() {
+		HashMap<Pays, HashMap<Pays, Integer>> up = new HashMap<>();
+		/* Calcul des mouvements dans le monde entier */
 		for (Node pays : nodes) {
 			int nbEmigrant = (int)((Pays.BONHEUR_MAX - ((Pays)pays).getBonheur()) * TAUX_EMIGRATION);
-			roulette((Pays)pays, nbEmigrant);
+			up.put((Pays) pays, roulette((Pays)pays, nbEmigrant));			
+		}
+		
+		/* Application des mouvements */
+		for (Map.Entry<Pays, HashMap<Pays, Integer>> e1 : up.entrySet()){
+			int nbEmigr = 0;
+			for (Map.Entry<Pays, Integer> e2 : e1.getValue().entrySet()) {
+				nbEmigr += e2.getValue();
+				e2.getKey().setPopulation(e2.getKey().getPopulation() + e2.getValue());
+			}
+			e1.getKey().setPopulation(e1.getKey().getPopulation() - nbEmigr);
 		}
 	}
 	
-	public void roulette(Pays p, int nbEmigr) {
+	public HashMap<Pays, Integer> roulette(Pays p, int nbEmigr) {
+		HashMap<Pays, Integer> res = new HashMap<>();
+		
 		/*Total des differences absolues de bonheur*/
 		int totalBonheur = 0;
-		for (int i = 0; i<nbEmigr; i++) {
-			totalBonheur += Math.abs(((Pays)getLinkedNodes(p).get(i)).getBonheur() - p.getBonheur());
+		
+		int g = getLinkedNodes(p).size();
+		for (int i = 0; i<g; i++) {
+			Pays tmp = ((Pays)getLinkedNodes(p).get(i));
+			totalBonheur += Math.abs(tmp.getBonheur() - p.getBonheur());
+			res.put(tmp, 0);
 		}
 		
 		Random r = new Random();
 		int rand = r.nextInt(totalBonheur);
-		int compteur = 0;
-		int i = 0;
 		for (int j = 0; j<nbEmigr; j++) {
+			int compteur = 0;
+			int i = 0;
+			
 			while (compteur < rand) {
 				compteur += Math.abs(((Pays)getLinkedNodes(p).get(i)).getBonheur() - p.getBonheur());
 				i++;
 			}
 			
 			Pays paysSelect = ((Pays)getLinkedNodes(p).get(i));
-			
 			if (paysSelect.getBonheur() > p.getBonheur()) {
-				
+				res.put(paysSelect, res.get(paysSelect)+1);
 			}
-		}
-		
-		
-		
-		
+		}		
+		return res;
 	}
 	
 	
