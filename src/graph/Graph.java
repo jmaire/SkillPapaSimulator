@@ -1,14 +1,13 @@
 package graph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 public class Graph {
 	
-	public static final double TAUX_EMIGRATION = 0.3; 
+	public static final double TAUX_EMIGRATION = 1; 
 	
 	ArrayList<Pays> nodes;
 	ArrayList<Frontiere> links;
@@ -73,12 +72,15 @@ public class Graph {
 	
 	
 	public void update() {
-		System.out.print("a");
 		HashMap<Pays, HashMap<Pays, Integer>> up = new HashMap<>();
 		/* Calcul des mouvements dans le monde entier */
 		for (Pays pays : nodes) {
 			pays.update();
-			int nbEmigrant = (int)((Pays.BONHEUR_MAX - pays.getBonheur()) * TAUX_EMIGRATION);
+			int nbEmigrant = 0;
+			if(pays.getBonheur() <= 1){
+				continue;
+			}
+			nbEmigrant = (int) ((pays.getBonheur()-1.f)/500.f * pays.getPopulationMax());
 			up.put(pays, roulette(pays, nbEmigrant));			
 		}
 		
@@ -91,19 +93,25 @@ public class Graph {
 			}
 			e1.getKey().setPopulation(e1.getKey().getPopulation() - nbEmigr);
 		}
+		for (Pays pays : nodes) {
+			System.out.println(pays + "- " + pays.population + " " + pays.getBonheur());
+		}
 	}
 	
 	public HashMap<Pays, Integer> roulette(Pays p, int nbEmigr) {
 		HashMap<Pays, Integer> res = new HashMap<>();
 		
 		/*Total des differences absolues de bonheur*/
-		int totalBonheur = 0;
-		
+		double totalBonheur = 0;
+		ArrayList<Pays> linkedTrue = new ArrayList<>();
 		int g = getLinkedNodes(p).size();
 		for (int i = 0; i<g; i++) {
 			Pays tmp = getLinkedNodes(p).get(i);
-			totalBonheur += Math.abs(tmp.getBonheur() - p.getBonheur());
-			res.put(tmp, 0);
+			if(tmp.getBonheur() < p.getBonheur()) {
+				totalBonheur += p.getBonheur()/tmp.getBonheur();
+				res.put(tmp, 0);
+				linkedTrue.add(tmp);
+			}
 		}
 		
 		if (totalBonheur == 0){
@@ -111,21 +119,19 @@ public class Graph {
 		}
 		
 		Random r = new Random();
-		int rand = r.nextInt(totalBonheur);
+		double rand = r.nextDouble() * totalBonheur ;
 		for (int j = 0; j<nbEmigr; j++) {
-			int compteur = 0;
-			int i = -1;
-			
-			while (compteur < rand) {
-				i++;
-				compteur += Math.abs(getLinkedNodes(p).get(i).getBonheur() - p.getBonheur());
-				
+			double compteur = p.getBonheur()/linkedTrue.get(0).getBonheur();
+			int i;
+			for (i=0; i<linkedTrue.size()-1; i++){
+				if(compteur >= rand){
+					break;
+				}
+				compteur += p.getBonheur()/linkedTrue.get(i+1).getBonheur();
 			}
 			
-			Pays paysSelect = getLinkedNodes(p).get(i);
-			if (paysSelect.getBonheur() > p.getBonheur()) {
-				res.put(paysSelect, res.get(paysSelect)+1);
-			}
+			Pays paysSelect = linkedTrue.get(i);
+			res.put(paysSelect, res.get(paysSelect)+1);
 		}		
 		return res;
 	}

@@ -43,22 +43,26 @@ public class App extends JFrame {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setVisible(true);
         Graph gra = new Graph();
-        Pays a = new Pays(50,50,2000);
-        a.setPopulation(2000);
-        Pays a2 = new Pays(50,500,3000);
-        a2.setPopulation(3000);
-        Pays a3 = new Pays(500,500,3000);
-        a3.setPopulation(3000);
+        Pays a = new Pays(50,50,3000);
+        a.setPopulation(10000);
+        Pays a2 = new Pays(50,500,5000);
+        a2.setPopulation(6000);
+        Pays a3 = new Pays(500,500,4000);
+        a3.setPopulation(25000);
         Pays a4 = new Pays(500,50,4000);
-        a4.setPopulation(4000);
-        Pays a5 = new Pays(275,275,8000);
-        a5.setPopulation(8000);
+        a4.setPopulation(7000);
+        Pays a5 = new Pays(275,275,2000);
+        a5.setPopulation(3000);
+        Pays a6 = new Pays(700,300,15000);
+        a5.setPopulation(3000);
+        
 
         gra.addNode(a);
         gra.addNode(a2);
         gra.addNode(a3);
         gra.addNode(a4);
         gra.addNode(a5);
+        gra.addNode(a6);
         
         gra.addLink(a, a2);
         gra.addLink(a2, a3);
@@ -69,6 +73,7 @@ public class App extends JFrame {
         gra.addLink(a2, a5);
         gra.addLink(a3, a5);
         gra.addLink(a4, a5);
+        gra.addLink(a3, a6);
 
 
 

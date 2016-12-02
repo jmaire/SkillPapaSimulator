@@ -12,7 +12,7 @@ public class Pays extends Node{
 	public static final int BONHEUR_INIT = (BONHEUR_MAX - BONHEUR_MIN)/2;
 	
 	
-	protected int bonheur;
+	protected double bonheur;
 	protected int population;
 	protected int populationMax;
 	protected TreeSet<Parametre> params;
@@ -29,7 +29,7 @@ public class Pays extends Node{
 		bonheur = newBonheur;
 	}
 	
-	public int getBonheur() {
+	public double getBonheur() {
 		return bonheur;
 	}
 	
@@ -55,12 +55,26 @@ public class Pays extends Node{
 	}
 	
 	public void update() {
-		double coef = Math.atan((populationMax - population)/3)*2/Math.PI;
+		/*
+		//double coef = Math.atan(populationMax - population)*2/Math.PI;
+		double coef = Math.max(-1, Math.min(1, (populationMax - population)/populationMax));
 		if (coef > 0) {
 			bonheur += (BONHEUR_MAX - bonheur) * coef;
 		} else {
 			bonheur += bonheur * coef;
 		}
+		*/
+		
+		double coef = 0;
+		if(population >= populationMax) {
+			coef = populationMax/(float)population;
+			bonheur = (BONHEUR_MAX - bonheur) * coef;
+		}
+		else {
+			coef = -population/(float)populationMax;
+			bonheur = bonheur * coef;
+		}
+		bonheur = population / (float) populationMax;
 	}
 	
 	

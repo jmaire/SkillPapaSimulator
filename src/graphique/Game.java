@@ -35,10 +35,17 @@ public class Game extends JPanel {
     }
     
     public void paintNodes(Graphics2D g2d){
+    	gra.update();
+    	try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	for(int i=0;i<gra.getNodes().size();i++){
     		 
     		int population = ((Pays) gra.getNodes().get(i)).getPopulation()/100;
-
+    		//System.out.println(gra.getNodes().get(i) + "_" + gra.getNodes().get(i).getPopulation());
     		g2d.setColor(Color.black);
     		int rayon = ((Pays) gra.getNodes().get(i)).getPopulationMax()/100;
     		
