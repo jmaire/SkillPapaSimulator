@@ -37,12 +37,9 @@ public class Game extends JPanel {
     	for(int i=0;i<gra.getNodes().size();i++){
     		 
     		int population = ((Pays) gra.getNodes().get(i)).getPopulation()/100;
-    		if(i == 4){
-    			((Pays) gra.getNodes().get(i)).setPopulation(((Pays) gra.getNodes().get(i)).getPopulation()-1);
-    		}
+
     		g2d.setColor(Color.black);
     		int rayon = ((Pays) gra.getNodes().get(i)).getPopulationMax()/100;
-    		//System.out.println(rayon + "_" +  population);
     		
             g2d.fillOval((int)gra.getNodes().get(i).getX() - (population/2), (int)gra.getNodes().get(i).getY()- (population/2), population, population);
             g2d.setColor(Color.red);
