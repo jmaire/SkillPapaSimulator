@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 public class Graph {
@@ -12,36 +11,40 @@ public class Graph {
 	public static final double TAUX_EMIGRATION = 0.3; 
 	
 	ArrayList<Pays> nodes;
-	ArrayList<Link> links;
+	ArrayList<Frontiere> links;
 	
 	public Graph() {
 		nodes = new ArrayList<Pays>();
-		links = new ArrayList<Link>();
+		links = new ArrayList<Frontiere>();
 	}
 	
 	public ArrayList<Pays> getNodes(){
 		return nodes;
 	}
 	
-	public ArrayList<Link> getLink(){
+	public ArrayList<Frontiere> getLink(){
 		return links;
 	}
 	
 	
 	public void addNode(Pays... n) {
-		nodes.addAll(Arrays.asList(n));
-	}
-	
-	public void addLink(Node n1, Node n2) {
-		if (nodes.contains(n1) && nodes.contains(n2)) {
-			links.add(new Link(n1,n2));
+		for(Pays p : n) {
+			if (!nodes.contains(p)) {
+				nodes.add(p);
+			}
 		}
 	}
 	
-	public ArrayList<Node> getLinkedNodes(Node n) {
-		ArrayList<Node> res = new ArrayList<Node>();
-		for(Link l : links){
-			Node tmpNode = l.getNeighbour(n);
+	public void addLink(Pays n1, Pays n2) {
+		if (nodes.contains(n1) && nodes.contains(n2) && n1!=n2) {
+			links.add(new Frontiere(n1,n2));
+		}
+	}
+	
+	public ArrayList<Pays> getLinkedNodes(Pays n) {
+		ArrayList<Pays> res = new ArrayList<Pays>();
+		for(Frontiere l : links){
+			Pays tmpNode = (Pays) l.getNeighbour(n);
 			if (tmpNode != null){
 				res.add(tmpNode);
 			}
@@ -57,8 +60,8 @@ public class Graph {
 		return nodes.size();
 	}
 
-	public boolean existingLink(Node n1, Node n2) {
-		for (Link l : links) {
+	public boolean existingLink(Pays n1, Pays n2) {
+		for (Frontiere l : links) {
 			if (l.getNode1() == n1 || l.getNode2() == n1){
 				if (getLinkedNodes(n1).contains(n2)){
 					return true;
@@ -70,9 +73,11 @@ public class Graph {
 	
 	
 	public void update() {
+		System.out.print("a");
 		HashMap<Pays, HashMap<Pays, Integer>> up = new HashMap<>();
 		/* Calcul des mouvements dans le monde entier */
 		for (Pays pays : nodes) {
+			pays.update();
 			int nbEmigrant = (int)((Pays.BONHEUR_MAX - pays.getBonheur()) * TAUX_EMIGRATION);
 			up.put(pays, roulette(pays, nbEmigrant));			
 		}
@@ -96,23 +101,28 @@ public class Graph {
 		
 		int g = getLinkedNodes(p).size();
 		for (int i = 0; i<g; i++) {
-			Pays tmp = ((Pays)getLinkedNodes(p).get(i));
+			Pays tmp = getLinkedNodes(p).get(i);
 			totalBonheur += Math.abs(tmp.getBonheur() - p.getBonheur());
 			res.put(tmp, 0);
+		}
+		
+		if (totalBonheur == 0){
+			return res;
 		}
 		
 		Random r = new Random();
 		int rand = r.nextInt(totalBonheur);
 		for (int j = 0; j<nbEmigr; j++) {
 			int compteur = 0;
-			int i = 0;
+			int i = -1;
 			
 			while (compteur < rand) {
-				compteur += Math.abs(((Pays)getLinkedNodes(p).get(i)).getBonheur() - p.getBonheur());
 				i++;
+				compteur += Math.abs(getLinkedNodes(p).get(i).getBonheur() - p.getBonheur());
+				
 			}
 			
-			Pays paysSelect = ((Pays)getLinkedNodes(p).get(i));
+			Pays paysSelect = getLinkedNodes(p).get(i);
 			if (paysSelect.getBonheur() > p.getBonheur()) {
 				res.put(paysSelect, res.get(paysSelect)+1);
 			}

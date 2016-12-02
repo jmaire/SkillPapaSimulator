@@ -9,11 +9,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
+import graph.Frontiere;
 import graph.Graph;
-import graph.Link;
-import graph.Node;
 import graph.Pays;
 
 public class Game extends JPanel {
@@ -34,14 +31,17 @@ public class Game extends JPanel {
     }
     
     public void paintNodes(Graphics2D g2d){
-    	for(int i=0;i<gra.getNodes().size();i++){
+    	gra.update();
+    	int n = gra.getNodes().size();
+    	for(int i=0;i<n;i++){
     		 
-    		int population = ((Pays) gra.getNodes().get(i)).getPopulation()/100;
+    		int population = gra.getNodes().get(i).getPopulation()/100;
     		if(i == 4){
-    			((Pays) gra.getNodes().get(i)).setPopulation(((Pays) gra.getNodes().get(i)).getPopulation()-1);
+    			
+    			//((Pays) gra.getNodes().get(i)).setPopulation(((Pays) gra.getNodes().get(i)).getPopulation()-1);
     		}
     		g2d.setColor(Color.black);
-    		int rayon = ((Pays) gra.getNodes().get(i)).getPopulationMax()/100;
+    		int rayon = gra.getNodes().get(i).getPopulationMax()/100;
     		//System.out.println(rayon + "_" +  population);
     		
             g2d.fillOval((int)gra.getNodes().get(i).getX() - (population/2), (int)gra.getNodes().get(i).getY()- (population/2), population, population);
@@ -54,7 +54,7 @@ public class Game extends JPanel {
     }
     
     public void paintLink(Graphics2D g2d){
-    	ArrayList<Link> aLinks=gra.getLink();
+    	ArrayList<Frontiere> aLinks=gra.getLink();
     	for(int i = 0; i<aLinks.size();i++){
             g2d.draw(new Line2D.Double(aLinks.get(i).getNode1().getX(), aLinks.get(i).getNode1().getY(), aLinks.get(i).getNode2().getX(), aLinks.get(i).getNode2().getY()));
     	}

@@ -1,8 +1,8 @@
 package graph;
 
 public class Node {
-	private float x;
-	private float y;
+	protected float x;
+	protected float y;
 	
 
 	public Node(float cx, float cy){
