@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
+import graph.Frontiere;
 import graph.Graph;
 import graph.Link;
 import graph.Node;
@@ -51,7 +52,7 @@ public class Game extends JPanel {
     }
     
     public void paintLink(Graphics2D g2d){
-    	ArrayList<Link> aLinks=gra.getLink();
+    	ArrayList<Frontiere> aLinks=gra.getLink();
     	for(int i = 0; i<aLinks.size();i++){
             g2d.draw(new Line2D.Double(aLinks.get(i).getNode1().getX(), aLinks.get(i).getNode1().getY(), aLinks.get(i).getNode2().getX(), aLinks.get(i).getNode2().getY()));
     	}
