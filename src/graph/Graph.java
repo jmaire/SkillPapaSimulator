@@ -11,15 +11,15 @@ public class Graph {
 	
 	public static final double TAUX_EMIGRATION = 0.3; 
 	
-	ArrayList<Node> nodes;
+	ArrayList<Pays> nodes;
 	ArrayList<Link> links;
 	
 	public Graph() {
-		nodes = new ArrayList<Node>();
+		nodes = new ArrayList<Pays>();
 		links = new ArrayList<Link>();
 	}
 	
-	public ArrayList<Node> getNodes(){
+	public ArrayList<Pays> getNodes(){
 		return nodes;
 	}
 	
@@ -28,7 +28,7 @@ public class Graph {
 	}
 	
 	
-	public void addNode(Node... n) {
+	public void addNode(Pays... n) {
 		nodes.addAll(Arrays.asList(n));
 	}
 	
@@ -72,9 +72,9 @@ public class Graph {
 	public void update() {
 		HashMap<Pays, HashMap<Pays, Integer>> up = new HashMap<>();
 		/* Calcul des mouvements dans le monde entier */
-		for (Node pays : nodes) {
-			int nbEmigrant = (int)((Pays.BONHEUR_MAX - ((Pays)pays).getBonheur()) * TAUX_EMIGRATION);
-			up.put((Pays) pays, roulette((Pays)pays, nbEmigrant));			
+		for (Pays pays : nodes) {
+			int nbEmigrant = (int)((Pays.BONHEUR_MAX - pays.getBonheur()) * TAUX_EMIGRATION);
+			up.put(pays, roulette(pays, nbEmigrant));			
 		}
 		
 		/* Application des mouvements */
