@@ -1,5 +1,6 @@
 package graphique;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -13,6 +14,7 @@ import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 import graph.Graph;
 import graph.Link;
 import graph.Node;
+import graph.Pays;
 
 public class Game extends JPanel {
 
@@ -33,7 +35,21 @@ public class Game extends JPanel {
     
     public void paintNodes(Graphics2D g2d){
     	for(int i=0;i<gra.getNodes().size();i++){
-            g2d.fillOval((int)gra.getNodes().get(i).getX()-15, (int)gra.getNodes().get(i).getY()-15, 30, 30);
+    		 
+    		int population = ((Pays) gra.getNodes().get(i)).getPopulation()/100;
+    		if(i == 4){
+    			((Pays) gra.getNodes().get(i)).setPopulation(((Pays) gra.getNodes().get(i)).getPopulation()-1);
+    		}
+    		g2d.setColor(Color.black);
+    		int rayon = ((Pays) gra.getNodes().get(i)).getPopulationMax()/100;
+    		//System.out.println(rayon + "_" +  population);
+    		
+            g2d.fillOval((int)gra.getNodes().get(i).getX() - (population/2), (int)gra.getNodes().get(i).getY()- (population/2), population, population);
+            g2d.setColor(Color.red);
+      
+            g2d.drawOval((int)gra.getNodes().get(i).getX()- (rayon/2), (int)gra.getNodes().get(i).getY()- (rayon/2), rayon, rayon);
+            g2d.setColor(Color.black);
+            
         }
     }
     
@@ -56,9 +72,10 @@ public class Game extends JPanel {
         y = y + speed*(double)d_time;
     }
     
+
+    
     public void draw(long d_time) {
-       
-    	moveBall(d_time);
+
         repaint();
     }
   

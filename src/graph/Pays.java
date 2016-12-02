@@ -23,9 +23,6 @@ public class Pays extends Node{
 		populationMax = popMax;
 	}
 	
-	public void setPopulation(int newPoppulation) {
-		population = newPoppulation;
-	}
 	
 	public void setBonheur(int newBonheur) {
 		bonheur = newBonheur;

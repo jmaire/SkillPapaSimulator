@@ -3,8 +3,11 @@ package graphique;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.MenuBar;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -17,18 +20,39 @@ public class App extends JFrame {
     public App() {
 
         JFrame jf = new JFrame();
-        JPanel jp = new JPanel();
-        jf.add(jp);
-        jp.setLayout(new BorderLayout());
+        JPanel panelGauche = new JPanel();
+        JPanel panelDroite = new JPanel();
+        JPanel grandPanel = new JPanel();
+        grandPanel.add(panelGauche);
+        grandPanel.add(panelDroite);
+        
+        panelDroite.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+        
+        panelDroite.setPreferredSize(new Dimension(200,20));
+        
+        grandPanel.setLayout(new BoxLayout(grandPanel,BoxLayout.X_AXIS));
+    	setContentPane(grandPanel); 
+        
+        
+        jf.add(grandPanel);
+        
+        
+        
+        panelGauche.setLayout(new BorderLayout());
         jf.setTitle("Skill Papa Simulator");
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setVisible(true);
         Graph gra = new Graph();
-        Pays a = new Pays(400,400,50);
-        Pays a2 = new Pays(100,5,50);
-        Pays a3 = new Pays(600,100,50);
-        Pays a4 = new Pays(100,100,50);
-        Pays a5 = new Pays(200,50,50);
+        Pays a = new Pays(50,50,2000);
+        a.setPopulation(2000);
+        Pays a2 = new Pays(50,500,3000);
+        a2.setPopulation(3000);
+        Pays a3 = new Pays(500,500,3000);
+        a3.setPopulation(3000);
+        Pays a4 = new Pays(500,50,4000);
+        a4.setPopulation(4000);
+        Pays a5 = new Pays(275,275,8000);
+        a5.setPopulation(8000);
 
         gra.addNode(a);
         gra.addNode(a2);
@@ -38,14 +62,19 @@ public class App extends JFrame {
         
         gra.addLink(a, a2);
         gra.addLink(a2, a3);
-        gra.addLink(a5, a4);
-        gra.addLink(a4, a2);
+        gra.addLink(a3, a4);
+        gra.addLink(a4, a);
+        
+        gra.addLink(a, a5);
+        gra.addLink(a2, a5);
+        gra.addLink(a3, a5);
+        gra.addLink(a4, a5);
 
 
 
 
         Game game = new Game(gra);
-        jp.add(game, BorderLayout.CENTER);
+        panelGauche.add(game, BorderLayout.CENTER);
         jf.setSize(1000, 700);
     }
 }
